@@ -31,7 +31,8 @@ from xgboost import XGBClassifier
 # =========================
 
 DATA_PATH = "data/predictive_maintenance.csv"
-EXPERIMENT_NAME = "Predictive_Maintenance_Hierarchical"
+EXPERIMENT_NAME = "Predictive_Maintenance_Hierarchical_"
+RUN_NAME = "Hierarchical_RF_XGBoost_failure_probability_0.3"
 
 mlflow.set_experiment(EXPERIMENT_NAME)
 
@@ -113,7 +114,9 @@ preprocessor = ColumnTransformer(
 # HIERARCHICAL RUN
 # =========================
 
-with mlflow.start_run(run_name="Hierarchical_RF_XGBoost"):
+print(RUN_NAME)
+
+with mlflow.start_run(run_name=RUN_NAME):
 
     mlflow.log_param("architecture", "hierarchical")
     mlflow.log_param("binary_model", "RandomForestClassifier")
@@ -280,7 +283,7 @@ with mlflow.start_run(run_name="Hierarchical_RF_XGBoost"):
         input_row = pd.DataFrame([row])
 
         failure_probability = binary_model.predict_proba(input_row)[0][1]
-        binary_prediction = int(failure_probability >= 0.5)
+        binary_prediction = int(failure_probability >= 0.3)
 
         if binary_prediction == 0:
             final_predictions.append({
