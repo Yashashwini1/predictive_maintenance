@@ -1,0 +1,23 @@
+artifact_path: /Users/nikki/GithubRepo/predictive_maintenance/mlruns/1/models/m-72751fb6b99442fca61f8450f7c57962/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.15
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+mlflow_version: 3.13.0
+model_id: m-72751fb6b99442fca61f8450f7c57962
+model_size_bytes: 1145036
+model_uuid: m-72751fb6b99442fca61f8450f7c57962
+prompts: null
+run_id: 5f72d961f1ce4ca1947ea2dc5ffdd6ca
+utc_time_created: '2026-06-14 10:06:10.233620'
