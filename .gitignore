@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+
+# Mac
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# MLflow
+mlruns/
+mlflow.db
+
+# Generated artifacts
+artifacts/
+
+# Virtual environments
+venv/
+.env
