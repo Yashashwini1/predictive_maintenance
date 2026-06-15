@@ -1,6 +1,10 @@
 # Predictive maintenance system
 
-Project Summary
+## Live application
+URL : https://predictivemaintenance-machines.streamlit.app/
+
+Github Repo: https://github.com/Yashashwini1/predictive_maintenance.git
+
 
 -----------------
 Table of contents
@@ -10,25 +14,30 @@ Table of contents
 2. ML Pipeline and Model Evaluation results
 3. Production readniness Critique
 4. Web App deployment
+----------------------------------------------------------------------------------
 
 # 1. Problem Statement and system design
------------------------------------------------------------------------------------
 
-# Problem Statement: 
---> Unexpected machine failures can lead to production downtime, increased maintenance costs and operational disruptions. The objective of this project is to develop a predictive maintenance system capable of identifying machines at risk of failure before breakdown occurs. The system provides maintenance engineers with failure probability estimates and predicted failure types through a web application, enabling proactive maintenance planning and improved operational efficiency.
---> Dataset: The dataset is a synthetic predictive maintenance dataset that has failures that are encountered in the industry. It contains unique ID, productID,
+
+## Problem Statement: 
+Unexpected machine failures can lead to production downtime, increased maintenance costs and operational disruptions. The objective of this project is to develop a predictive maintenance system capable of identifying machines at risk of failure before breakdown occurs. The system provides maintenance engineers with failure probability estimates and predicted failure types through a web application, enabling proactive maintenance planning and improved operational efficiency.
+#### Dataset: The dataset is a synthetic predictive maintenance dataset that has failures that are encountered in the industry. It contains unique ID, productID,
 features: air temerature, process temperature, roational speed, torque and tool wear taht represtenats the functioning of the machine. Target: Failure and type of failures occured in the machine.
----> Goal: A simple application for the maintenance engineers that detects an early failure warning of machines
----> UI: The predictions will be made availabe to the end user through a streamlit web app where the end user can observe overall fleet perfomances and failures occured along with individual machine failure probability , the risk levels : Low/medium/High and recommended actions.
+#### Goal: A simple application for the maintenance engineers that detects an early failure warning of machines
+#### UI: The predictions will be made availabe to the end user through a streamlit web app where the end user can observe overall fleet perfomances and failures occured along with individual machine failure probability , the risk levels : Low/medium/High and recommended actions.
 
-Success: Measured by the systems ability to detect and warn potential failures before they occur in order to optimize the maintenance avtivites while preventing failures.
+#### Success: Measured by the systems ability to detect and warn potential failures before they occur in order to optimize the maintenance avtivites while preventing failures.
 
-Cost: In operational context,
-    ---> false negatives is higher which is : model prediction fails- machine failure, downtime, sudden maintenance intervention, disruption of the supply chain, equipement damage, overload on the backup machines, delays, sudden repair costs, backlog 
-    ---> False positives: Overload on maintenance activites , unnessary maintenances cost 
-    
+#### Cost: In operational context,
+    `false negatives` is higher which is : model prediction fails- machine failure, downtime, sudden maintenance intervention, disruption of the supply chain, equipement damage, overload on the backup machines, delays, sudden repair costs, backlog 
+    `False positives`: Overload on maintenance activites , unnessary maintenances cost 
+#### Known Limitations
 
-# System Design
+- The dataset contains 27 contradictory labels between `Target` and `Failure Type`.
+- Random Failures were excluded from the failure-type model due to limited samples and label inconsistency.
+- The binary model prioritizes recall over precision and may generate false alarms.
+
+## System Design
 ![alt text](images/image.png)
 
 Figure 1: The system consists of four layers:
@@ -70,24 +79,37 @@ Why Recall?
 failures as possible. A missed failure (false negative) can result in: Unplanned downtime, Lost production, Expensive repairs
 Therefore, maximizing recall provides greater operational value than simply maximizing accuracy.
 RandomForest: 
-                  precision    recall  f1-score   support
+Failure Class (1)              
 
-           0       0.99      0.99      0.99      1932
-           1       0.63      0.65      0.64        68
+Precision = 0.63
+Recall = 0.65
+F1 = 0.64
+Support = 68
 
-    accuracy                           0.97      2000
+Failure Class (0)              
 
+Precision = 0.99
+Recall = 0.99
+F1 = 0.99
+Support = 1932
+
+The model struggles because of 1932 No Failure 68 Failure
 
 XGBoost: The model is trained on only failures dataset i.e target is 1 and also removing random failures class is too small (Random Failures-18)
-                          precision    recall  f1-score   support
+- Accuracy: 94%
+- Heat Dissipation Failure: Precision 1.00 | Recall 1.00 | F1 1.00
+- Overstrain Failure: Precision 0.92 | Recall 0.80 | F1 0.86
+- Power Failure: Precision 0.87 | Recall 1.00 | F1 0.93
+- Tool Wear Failure: Precision 0.90 | Recall 0.90 | F1 0.90
 
-Heat Dissipation Failure       1.00      1.00      1.00        28
-      Overstrain Failure       0.92      0.80      0.86        15
-           Power Failure       0.87      1.00      0.93        13
-       Tool Wear Failure       0.90      0.90      0.90        10
+### Future Improvements
 
-                accuracy                           0.94        66
-
+- Evaluate XGBoost for binary failure detection.
+- Add SHAP explainability for individual predictions.
+- Introduce automated drift monitoring.
+- Implement CI/CD for automated deployment.
+- Collect additional examples of Random Failures.
+- Integrate maintenance history and machine operating conditions.
 
 -----------------------------------------------------------------------------------
 # 3.Production readniness Critique
@@ -125,43 +147,6 @@ UI risk: Maintenance engineers may misinterpret the prediction or overtrust the 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Predictive Maintenance Hierarchical ML Pipeline
-
-This project trains a two-stage predictive maintenance model:
-
-1. **Binary failure detection** using Random Forest
-2. **Failure type diagnosis** using XGBoost
-
-The binary model predicts whether a machine will fail. If the predicted failure probability is at least **0.50**, the XGBoost model predicts the failure type.
-
 ## Project structure
 
 ```text
@@ -195,6 +180,8 @@ predictive_maintenance_pipeline/
 
 ## How to run locally
 
+Github Repo: https://github.com/Yashashwini1/predictive_maintenance.git
+
 Install dependencies:
 
 ```bash
@@ -219,14 +206,4 @@ Run the app:
 streamlit run app.py
 ```
 
-## Streamlit Cloud
 
-For deployment, push this project to GitHub and deploy `app.py` using Streamlit Community Cloud.
-
-Make sure the trained model files are available in the `models/` folder:
-
-```text
-models/binary_failure_model.pkl
-models/failure_type_model.pkl
-models/failure_type_label_encoder.pkl
-```
