@@ -106,7 +106,6 @@ Provides maintenance engineers with access to predictions through a Streamlit we
 # Model Setection Stratergy:
 This is a classification problem with class imbalance.
 
-This is a classification problem with class imbalance.
 
 ## Model 1: Random Forest
 
@@ -136,7 +135,8 @@ Reasons for selection:
 # 2. ML Pipeline
 -----------------------------------------------------------------------------------
 The ml pipeline was designed to be modular, reproducible and production-oriented.
-pipeline steps: ```text
+pipeline steps:
+ ```text
 Data Loading
       ↓
 Data Validation
@@ -152,7 +152,7 @@ Model Evaluation
 Model Serialization
       ↓
 Streamlit Deployment
-
+```
 Preprocessing is fitted exclusively on the training set and then applied to the test set to prevent data
 leakage. To prevent data leakage, 
 - the dataset was first split into training and test sets. 
@@ -247,7 +247,7 @@ In addition to scheduled retraining, retraining could also be triggered by
 
 - Prediction failure risk: The model service may fail or return invalid predictions. This can be mitigated with error handling, fallback rules, health checks, logging, and rollback to a previous stable model version.
 
-- UI risk: Maintenance engineers may misinterpret the prediction or overtrust the model. The app should clearly show failure probability, risk level, confidence, and recommended action, along with known limitations. The system should be positioned as decision support, not a replacement for engineering
+- UI risk: Maintenance engineers may misinterpret the prediction or overtrust the model. The app should clearly show failure probability, risk level, confidence, and recommended action, along with known limitations. Keeping the engineers in the loop is key.
 
 
 
